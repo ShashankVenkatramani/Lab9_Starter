@@ -86,8 +86,19 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "5eb235e3d31d483b992f0d53b3b90d07"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+  <script>
+    window.addEventListener('error', e => {
+      console.log(e);
+    });
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -102,6 +113,111 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // console.log example
+    errorBtns[0].addEventListener("click", () => {
+      console.log(`Currently adding: ${document.querySelector('#first-num').value} and ${document.querySelector('#second-num').value}`);
+    });
+
+    // console.error example
+    errorBtns[1].addEventListener("click", () => {
+      console.error("I cannot do that");
+    })
+
+    // console.count example
+    errorBtns[2].addEventListener("click", () => {
+      console.count("errorBtns[2]");
+    })
+
+    // console.warn example
+    errorBtns[3].addEventListener("click", () => {
+      console.warn("This is merely a warning!");
+    })
+
+    // console.assert example
+    errorBtns[4].addEventListener("click", () => {
+      let x = 3;
+      let y = 2;
+      console.assert(x < y, {x, y});
+    })
+
+    // console.clear example
+    errorBtns[5].addEventListener("click", () => {
+      console.clear();
+    })
+
+    // console.dir example
+    errorBtns[6].addEventListener("click", () => {
+      console.dir(errorBtns[6]);
+    })
+
+    // console.dirxml example
+    errorBtns[7].addEventListener("click", () => {
+      console.dirxml(errorBtns[6]);
+    })
+
+    // console.group start example
+    errorBtns[8].addEventListener("click", () => {
+      console.group("Start of Group");
+    })
+
+    // console.group end example
+    errorBtns[9].addEventListener("click", () => {
+      console.groupEnd("Start of Group");
+    })
+
+    // console.table example
+    errorBtns[10].addEventListener("click", () => {
+      console.table(errorBtns);
+    })
+
+    // console.time example
+    errorBtns[11].addEventListener("click", () => {
+      console.time("button timer");
+    })
+
+    // console.timeEnd example
+    errorBtns[12].addEventListener("click", () => {
+      console.timeEnd("button timer");
+    })
+
+    // console.trace example
+    errorBtns[13].addEventListener("click", () => {
+      console.trace();
+    })
+
+    // Global Error example
+    errorBtns[14].addEventListener("click", () => {
+      console.log(variableThatDoesntExist);
+    })
+
+    /*
+    Custom error exploration
+    */
+    class ButtonError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ButtonError";
+      }
+    }
+
+    /*
+    Try Catch Exploration
+    Scenario: The UI design showed there would be 16 buttons,
+    but the html code hasn't been updated to support that. Will
+    attempt to index for that button and get index out of bounds
+    */
+    try {
+      // console.log2 example
+      errorBtns[15].addEventListener("click", () => {
+        console.log("Second log demo!");
+      })
+    } catch (err) {
+      alert(`There was an error with console.log2: ${err.name}`);
+      throw new ButtonError(err.message);
+    } finally {
+      alert('moving on to rest of code');
+    }
   </script>
 </body>
 
